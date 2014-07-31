@@ -11,7 +11,7 @@ class Compound:
 
 
   def get_pharmacological_protein_targets(self):
-    for i in self.api.getCompoundPharmacology("http://www.conceptwiki.org/concept/dd85c868-74be-4b86-ae58-12ac6d19a4ba"):
+    for i in self.api.getCompoundPharmacology(self.init_uri):
       if "hasAssay" in i:
         if "hasTarget" in i['hasAssay']:
           if type(i['hasAssay']['hasTarget']) is dict:
@@ -35,7 +35,7 @@ class Compound:
 
   def get_pharmacological_targets(self):
 
-     for i in self.api.getCompoundPharmacology("http://www.conceptwiki.org/concept/dd85c868-74be-4b86-ae58-12ac6d19a4ba"):
+     for i in self.api.getCompoundPharmacology(self.init_uri):
         if "hasAssay" in i:
           if "hasTarget" in i['hasAssay']:
             if type(i['hasAssay']['hasTarget']) is dict:
@@ -56,62 +56,66 @@ class Compound:
 
 
   def _parse_and_populate(self, compound_info_results):
-
-
     primaryTopic = compound_info_results['result']['primaryTopic']
-    if "prefLabel" in primaryTopic:
-      self.label = primaryTopic['prefLabel']
+    self._item_parse(primaryTopic)
 
     exactMatches = primaryTopic['exactMatch']
 
     for exactMatch in exactMatches:
-       if "biotransformation" in exactMatch:
-         self.biotransformation = exactMatch["biotransformation"]
+      self._item_parse(exactMatch)
 
-       if "drugType" in exactMatch:
-         self.drugType = exactMatch['drugType']
 
-       if "genericName" in exactMatch:
-         self.genericName = exactMatch['genericName']
+  def _item_parse(self, item):
+       if "prefLabel" in item:
+         self.label = item['prefLabel']
 
-       if "proteinBinding" in exactMatch:
-         self.proteinBinding = exactMatch['proteinBinding']
+       if "biotransformation" in item:
+         self.biotransformation = item["biotransformation"]
 
-       if "mw_freebase" in exactMatch:
-         self.molecular_weight = exactMatch['mw_freebase']
+       if "drugType" in item:
+         self.drugType = item['drugType']
 
-       if "toxicity" in exactMatch:
-         self.toxicity = exactMatch['toxicity']
+       if "genericName" in item:
+         self.genericName = item['genericName']
 
-       if "inchi" in exactMatch:
-         self.inchi = exactMatch['inchi']
+       if "proteinBinding" in item:
+         self.proteinBinding = item['proteinBinding']
 
-       if "inchikey" in exactMatch:
-         self.inchi_key = exactMatch["inchikey"]
+       if "mw_freebase" in item:
+         self.molecular_weight = item['mw_freebase']
 
-       if "hba" in exactMatch:
-         self.number_hbond_acceptors = exactMatch['hba']
+       if "toxicity" in item:
+         self.toxicity = item['toxicity']
 
-       if "hbd" in exactMatch:
-         self.number_hbond_donors = exactMatch['hbd']
+       if "inchi" in item:
+         self.inchi = item['inchi']
 
-       if "logp" in exactMatch:
-         self.alogp = exactMatch['logp']
+       if "inchikey" in item:
+         self.inchi_key = item["inchikey"]
 
-       if "molformula" in exactMatch:
-         self.molecular_formula = exactMatch['molformula']
+       if "hba" in item:
+         self.number_hbond_acceptors = item['hba']
 
-       if "molweight" in exactMatch:
-         self.molecular_weight = exactMatch['molweight']
+       if "hbd" in item:
+         self.number_hbond_donors = item['hbd']
 
-       if "psa" in exactMatch:
-         self.polar_surface_area = exactMatch['psa']
+       if "logp" in item:
+         self.alogp = item['logp']
 
-       if "ro5_violations" in exactMatch:
-         self.rule_of_5_violations = exactMatch['ro5_violations']
+       if "molformula" in item:
+         self.molecular_formula = item['molformula']
 
-       if "rtb" in exactMatch:
-         self.rotatable_bonds = exactMatch['rtb']
+       if "molweight" in item:
+         self.molecular_weight = item['molweight']
 
-       if "smiles" in exactMatch:
-         self.smiles = exactMatch['smiles']
+       if "psa" in item:
+         self.polar_surface_area = item['psa']
+
+       if "ro5_violations" in item:
+         self.rule_of_5_violations = item['ro5_violations']
+
+       if "rtb" in item:
+         self.rotatable_bonds = item['rtb']
+
+       if "smiles" in item:
+         self.smiles = item['smiles']
