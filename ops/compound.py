@@ -9,6 +9,7 @@ class Compound:
       self._parse_and_populate(res)
       self.json = res
 
+  
 
   def get_pharmacological_protein_targets(self):
     for i in self.api.getCompoundPharmacology(self.init_uri):

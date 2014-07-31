@@ -21,7 +21,13 @@ def iteration_test():
   compound = Compound(api,'http://www.conceptwiki.org/concept/38932552-111f-4a4e-a46a-4ed1d7bdf9d5')
 
   for t in compound.get_pharmacological_protein_targets():
-      print(t.label + " " + t.type)
+     print(t.label + " " + t.type)
+
+  target = Target(api, 'http://www.conceptwiki.org/concept/00059958-a045-4581-9dc5-e5a08bb0c291')
+  for c in target.get_active_compounds():
+    print c.label
+
+
 
 if __name__ == "__main__":
-    info_test()
+  iteration_test()

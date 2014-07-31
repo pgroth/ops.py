@@ -8,6 +8,7 @@ class Target:
       self._parse_and_populate(res)
       self.json = res
 
+  ##todo: filter out duplicates
   def get_active_compounds(self):
       from compound import Compound
       for i in self.api.getTargetPharmacology(self.init_uri):
